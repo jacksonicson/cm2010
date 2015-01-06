@@ -32,10 +32,3 @@ p.charger.voltage
 ```{r, echo=FALSE}
 p.charger.amperage
 ```
-
-# Battery resistor
-
-```{r, echo=FALSE}
-p.resistor
-```
-
