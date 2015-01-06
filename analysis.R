@@ -7,62 +7,62 @@ data = read.csv("output.csv", sep=";", stringsAsFactors=FALSE, quote = "'")
 data$slot = as.factor(data$slot)
 data$time = as.POSIXct(data$time, origin="1970-01-01")
 
-data$bvol = data$bvol / 1000 # mV to V
-data$lvol = data$lvol / 1000 # mV to V
-data$lamp = data$lamp / 1000 # mA to A
-data$charged = data$charged / 100 # 10^-2 mAh to mAh
-data$discharged = data$discharged / 100 # 10^-2 mAh to mAh
-data$resistor = data$resistor / 100 # 10^-1 MOhm to MOhm
+data$battery.voltage = data$battery.voltage / 1000 # mV to V
+data$charger.voltage = data$charger.voltage / 1000 # mV to V
+data$charger.amperage = data$charger.amperage / 1000 # mA to A
+data$charged.capacity = data$charged.capacity / 100 # 10^-2 mAh to mAh
+data$discharged.capacity = data$discharged.capacity / 100 # 10^-2 mAh to mAh
+data$battery.resistor = data$battery.resistor / 100 # 10^-1 MOhm to MOhm
 
-data.charge = data[data$display == 'Charge',]
-data.discharge = data[data$display == 'Discharge',]
-data.trickle = data[data$display == 'Trickle',]
+data.charge = data[data$program.state == 'Charge',]
+data.discharge = data[data$program.state == 'Discharge',]
+data.trickle = data[data$program.state == 'Trickle',]
 
 runtime = ddply(data, .(slot), function(rows) {
-  hour = max(rows$hrs)
-  min = tail(rows, 1)$min
+  hour = max(rows$hours)
+  min = tail(rows, 1)$minutes
   return(c(hour, min))
 })
 names(runtime) = c("Charger Slot", "Hours", "Minutes")
 
 p = ggplot()
-p = p + geom_line(data=data.charge, aes(x=time, y=charged, color=slot))
-p = p + geom_line(data=data.discharge, aes(x=time, y=-discharged, color=slot))
-p = p + geom_line(data=data.trickle, aes(x=time, y=charged, color=slot))
+p = p + geom_line(data=data.charge, aes(x=time, y=charged.capacity, color=slot))
+p = p + geom_line(data=data.discharge, aes(x=time, y=-discharged.capacity, color=slot))
+p = p + geom_line(data=data.trickle, aes(x=time, y=charged.capacity, color=slot))
 p = p + scale_color_discrete(name="Charger Slot")
 p = p + labs(x="Time", y="(Dis)Charged (mAh)") 
 p = p + theme(legend.position="top")
 p.charge.discharge = p
 
 p = ggplot()
-p = p + geom_point(data=data.charge[data.charge$resistor > 0,], aes(x=time, y=resistor, color=slot), size=0.1)
-p = p + geom_point(data=data.discharge[data.discharge$resistor > 0,], aes(x=time, y=resistor, color=slot), size=0.1)
-p = p + geom_point(data=data.trickle[data.trickle$resistor > 0,], aes(x=time, y=resistor, color=slot), size=0.1)
+p = p + geom_point(data=data.charge[data.charge$battery.resistor > 0,], aes(x=time, y=battery.resistor, color=slot), size=0.1)
+p = p + geom_point(data=data.discharge[data.discharge$battery.resistor > 0,], aes(x=time, y=battery.resistor, color=slot), size=0.1)
+p = p + geom_point(data=data.trickle[data.trickle$battery.resistor > 0,], aes(x=time, y=battery.resistor, color=slot), size=0.1)
 p = p + scale_color_discrete(name="Charger Slot")
-p = p + labs(x="Time", y="Resistor (MOhm)") 
+p = p + labs(x="Time", y="battery.resistor (MOhm)") 
 p = p + theme(legend.position="top")
-p.resistor = p
+p.battery.resistor = p
 
 p = ggplot()
-p = p + geom_line(data=data.charge[data.charge$bvol > 0,], aes(x=time, y=bvol, color=slot))
-p = p + geom_line(data=data.discharge[data.discharge$bvol > 0,], aes(x=time, y=bvol, color=slot))
-p = p + geom_line(data=data.trickle[data.trickle$bvol > 0,], aes(x=time, y=bvol, color=slot))
+p = p + geom_line(data=data.charge[data.charge$battery.voltage > 0,], aes(x=time, y=battery.voltage, color=slot))
+p = p + geom_line(data=data.discharge[data.discharge$battery.voltage > 0,], aes(x=time, y=battery.voltage, color=slot))
+p = p + geom_line(data=data.trickle[data.trickle$battery.voltage > 0,], aes(x=time, y=battery.voltage, color=slot))
 p = p + scale_color_discrete(name="Charger Slot")
 p = p + labs(x="Time", y="Battery Voltage (V)") 
 p = p + theme(legend.position="top")
 p.battery.voltage = p
 
 p = ggplot()
-p = p + geom_line(data=data.charge[data.charge$lvol > 0,], aes(x=time, y=lvol, color=slot))
-p = p + geom_line(data=data.trickle[data.trickle$lvol > 0,], aes(x=time, y=lvol, color=slot))
+p = p + geom_line(data=data.charge[data.charge$charger.voltage > 0,], aes(x=time, y=charger.voltage, color=slot))
+p = p + geom_line(data=data.trickle[data.trickle$charger.voltage > 0,], aes(x=time, y=charger.voltage, color=slot))
 p = p + scale_color_discrete(name="Charger Slot")
 p = p + labs(x="Time", y="Charger Voltage (V)") 
 p = p + theme(legend.position="top")
 p.charger.voltage = p
 
 p = ggplot()
-p = p + geom_line(data=data.charge[data.charge$lamp > 0,], aes(x=time, y=lamp, color=slot))
-p = p + geom_line(data=data.trickle[data.trickle$lamp > 0,], aes(x=time, y=lamp, color=slot))
+p = p + geom_line(data=data.charge[data.charge$charger.amperage > 0,], aes(x=time, y=charger.amperage, color=slot))
+p = p + geom_line(data=data.trickle[data.trickle$charger.amperage > 0,], aes(x=time, y=charger.amperage, color=slot))
 p = p + scale_color_discrete(name="Charger Slot")
 p = p + labs(x="Time", y="Charger Amperage (A)") 
 p = p + theme(legend.position="top")
