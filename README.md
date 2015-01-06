@@ -1,9 +1,7 @@
 cm2010
 ======
 
-Python script that records log-data of the Conrad Charge manager 2010 serial interface. All relevant data is stored into a CSV file for later analysis (R-Scripts)
-
-![Battery Voltage of 4 Charge Slots](/batteryVoltage.png)
+Python script that records log-data of the Conrad Charge Manager 2010 serial interface (tty). All relevant data is stored into a CSV file for later analysis (R-Scripts).
 
 # Byte Format
 
@@ -84,3 +82,7 @@ Based on [CM2010](http://cm2010.sourceforge.net/)
 | 0x06 | Discharging (Discharge)                                 |
 | 0x07 | Trickle charge                                          |
 | 0x08 | Ready (done charging)                                   |
+
+# Example Output
+
+![Battery Voltage of 4 Charge Slots](/batteryVoltage.png)
