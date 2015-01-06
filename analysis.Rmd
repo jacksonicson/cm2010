@@ -1,0 +1,34 @@
+```{r, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+require(knitr)
+source("analysis.R")
+```
+
+# Charging Time
+
+```{r, results='asis', echo=FALSE, out.}
+knitr::kable(runtime)
+```
+
+# Charge/Discharge Capacities
+
+```{r, echo=FALSE}
+p.charge.discharge
+```
+
+# Battery voltage
+
+```{r, echo=FALSE}
+p.battery.voltage
+```
+
+# Charger voltage
+
+```{r, echo=FALSE}
+p.charger.voltage
+```
+
+# Charger amperage
+
+```{r, echo=FALSE}
+p.charger.amperage
+```
