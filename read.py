@@ -1,5 +1,4 @@
-# http://cm2010.sourceforge.net/ 
-# Values are in Big Endian
+# Values are in big endian
 # Data block width 34 byte (4 blocks each second = one slot update each second)
 
 import struct
@@ -197,10 +196,30 @@ class Block(object):
 		print "Pre 1 voltage: %i (mV)" % self.pre1_voltage
 		print "Pre 0 voltage: %i (mV)" % self.pre0_voltage
 		print
-		
+	
+	@staticmethod
+	def csv_head():
+		return "slot; time; display; program.state; capacity; hours; minutes; charger.voltage; charger.amperage; battery.fill; battery.voltage; charged.capacity; discharged.capacity; battery.resistor; charger.volume.pre3; charger.volume.pre2; charger.volume.pre1; charger.volume.pre0"
+
 	def csv(self):
-		ts = int(time.time())		
-		vals = (self.slot, ts, self.display, self.program_state, self.capacity, self.hours, self.minutes, self.voltage, self.amperage, self.fill, self.voltage_battery, self.charged_capacity, self.discharged_capacity, self.resistor, self.pre3_voltage, self.pre2_voltage, self.pre1_voltage, self.pre0_voltage)
+		vals = (self.slot, 
+			int(time.time()), 
+			self.display, 
+			self.program_state, 
+			self.capacity, 
+			self.hours, 
+			self.minutes, 
+			self.voltage, 
+			self.amperage, 
+			self.fill, 
+			self.voltage_battery, 
+			self.charged_capacity, 
+			self.discharged_capacity, 
+			self.resistor, 
+			self.pre3_voltage, 
+			self.pre2_voltage, 
+			self.pre1_voltage, 
+			self.pre0_voltage)
 		return "%i;%i;'%s';'%s';'%s';%i;%i;%i;%i;%i;%i;%i;%i;%i;%i;%i;%i;%i" % vals
 
 # Handle signals
@@ -212,7 +231,7 @@ signal.signal(signal.SIGINT, handler)
 
 # Open CSV file to capture results
 out = open(CSV_OUTPUT, "w")
-out.write("slot; time; state; display; capacity; hrs; min; lvol; lamp; fill; bvol; charged; discharged; resistor; pre3vol; pre2vol; pre1vol; pre0vol")
+out.write(Block.csv_head())
 out.write("\n")
 
 # Read data from charger
