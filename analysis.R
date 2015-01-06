@@ -23,6 +23,7 @@ runtime = ddply(data, .(slot), function(rows) {
   min = tail(rows, 1)$min
   return(c(hour, min))
 })
+names(runtime) = c("Charger Slot", "Hours", "Minutes")
 
 p = ggplot()
 p = p + geom_line(data=data.charge, aes(x=time, y=charged, color=slot))

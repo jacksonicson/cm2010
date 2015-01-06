@@ -1,10 +1,12 @@
 ```{r, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+require(knitr)
 source("analysis.R")
 ```
 
-# Summary
-```{r, echo=FALSE}
-runtime
+# Charging Time
+
+```{r, results='asis', echo=FALSE, out.}
+knitr::kable(runtime)
 ```
 
 # Charge/Discharge Capacities
