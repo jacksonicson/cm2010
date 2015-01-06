@@ -1,0 +1,39 @@
+```{r, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+source("analysis.R")
+```
+
+# Summary
+```{r, echo=FALSE}
+runtime
+```
+
+# Charge/Discharge Capacities
+
+```{r, echo=FALSE}
+p.charge.discharge
+```
+
+# Battery voltage
+
+```{r, echo=FALSE}
+p.battery.voltage
+```
+
+# Charger voltage
+
+```{r, echo=FALSE}
+p.charger.voltage
+```
+
+# Charger amperage
+
+```{r, echo=FALSE}
+p.charger.amperage
+```
+
+# Battery resistor
+
+```{r, echo=FALSE}
+p.resistor
+```
+
