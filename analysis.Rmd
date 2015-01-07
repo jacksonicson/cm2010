@@ -1,5 +1,4 @@
 ```{r, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
-require(knitr)
 source("analysis.R")
 ```
 
@@ -11,11 +10,23 @@ knitr::kable(runtime)
 
 # Charge/Discharge Capacities
 
+Program states:
+
+  * Charge
+  * Discharge
+  * Trickle
+
 ```{r, echo=FALSE}
 p.charge.discharge
 ```
 
 # Battery voltage
+
+Program states:
+
+  * Charge
+  * Discharge
+  * Trickle
 
 ```{r, echo=FALSE}
 p.battery.voltage
@@ -23,12 +34,35 @@ p.battery.voltage
 
 # Charger voltage
 
+Program states:
+
+  * Charge
+  * Trickle
+
 ```{r, echo=FALSE}
 p.charger.voltage
 ```
 
 # Charger amperage
 
+Program states:
+
+  * Charge
+  * Discharge
+  * Trickle
+
 ```{r, echo=FALSE}
 p.charger.amperage
+```
+
+# Battery resistor
+
+Program states:
+
+  * Charge
+  * Discharge
+  * Trickle
+
+```{r, echo=FALSE}
+p.battery.resistor
 ```
