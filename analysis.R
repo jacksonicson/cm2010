@@ -2,7 +2,7 @@ require(ggplot2)
 require(scales)
 require(plyr)
 
-data = read.csv("output.csv", sep=";", stringsAsFactors=FALSE, quote = "'")
+data = read.csv("outputB.csv", sep=";", stringsAsFactors=FALSE, quote = "'")
 
 data$slot = as.factor(data$slot)
 data$time = as.POSIXct(data$time, origin="1970-01-01")
